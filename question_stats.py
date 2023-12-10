@@ -6,11 +6,13 @@ from dataclasses import dataclass
 class Statistics:
     question_list = list = []
 
-    def make_dict(self):
-        with open("questions.csv") as file:
+    @staticmethod
+    def make_dict(file_path):
+        question_list = []
+        with open(file_path) as file:
             reader = csv.DictReader(file)
             for row in reader:
-                self.question_list.append(
+                question_list.append(
                     {
                         "type": row["type"],
                         "id": row["id"],
@@ -24,6 +26,10 @@ class Statistics:
                         "answered": row["answered"],
                     }
                 )
+        return question_list
+    
+    def load_stats(self, file_path="questions.csv"):
+        self.question_list = self.make_dict(file_path)
 
     def print_stats(self):
         for question in self.question_list:
@@ -41,12 +47,10 @@ class Statistics:
                 "\n",
             )
 
-
 def reveal_stats():
     stuff = Statistics()
-    stuff.make_dict()
+    stuff.load_stats()
     stuff.print_stats()
-
 
 if __name__ == "__main__":
     reveal_stats()
