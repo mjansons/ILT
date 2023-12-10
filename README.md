@@ -56,3 +56,6 @@ Peer Programming:
 
 Conduct at least one session of peer programming, and ensure the initial repository is available on GitHub.
 Remember to regularly test and debug your code as you progress through each feature. Additionally, keep the user experience in mind to create a seamless and intuitive learning tool.
+
+Notes to myself:
+Need to remember to allow users to edit questions that they have added in case mistakes were made. Another option in adding_questions.py
