@@ -63,6 +63,7 @@ def start_question_mode():
             question = QuizQuestion()
             question.get()
             question.add_to_file()
+            print("Success!")
             continue
 
         #Freeform Question
@@ -70,6 +71,7 @@ def start_question_mode():
             question = FreeformQuestion()
             question.get()
             question.add_to_file()
+            print("Success!")
             continue
 
         #Back to Menu
