@@ -1,0 +1,8 @@
+type,id,status,question,r_answer,w_answer_1,w_answer_2,w_answer_3,shown,answered
+quizquestion,170223897066,active,What is the capital of Latvia?,Riga,Vilnius,Tartu,Vienna,0,0
+quizquestion,170223897045,active,Where do babies come from?,Coitus,Stork,Cabbages,Baby Factory,0,0
+quizquestion,170223897033,active,2+2=,4,3,6,8,0,0
+quizquestion,170224071163,active,What's up?,The Sky,God,Nothing,Jesus,0,0
+quizquestion,170224083523,active,What is the capital of Latvia?,Riga,Vilnius,Valmiera,Ludza,0,0
+quizquestion,170224083594,active,2+2=?,4,3,5,7,0,0
+quizquestion,170224729212106,active,What is orange juice made from?,Oranges,Apples,Bananas,Eggs,0,0

@@ -1,13 +1,19 @@
+"""this code offers to add 2 types of questions in questions.csv file"""
+
 import csv
 from dataclasses import dataclass
 from abc import ABC, abstractmethod
 import time
 import os
 
+class BackToMain(Exception):
+    pass
+
 @dataclass
 class Question(ABC):
+    """master class for questions"""
     question_type: str = None
-    unique_id: int = int(time.time())
+    unique_id: int = int(time.time_ns()/10000)
     status: str = "active"
     question: str = None
     right_answer: str = None
@@ -23,12 +29,40 @@ class Question(ABC):
         ...
 
     def add_to_file(self):
-        with open("questions.csv", "a", newline='', encoding='utf-8') as file:
-            writer = csv.DictWriter(file, fieldnames=["type", "id", "status", "question", "r_answer", "w_answer_1", "w_answer_2", "w_answer_3", "shown", "answered"])
-            #only create headers if the file is empty.
+        """create a csv file and populate it with all attribute values"""
+        with open("questions.csv", "a", newline="", encoding="utf-8") as file:
+            writer = csv.DictWriter(
+                file,
+                fieldnames=[
+                    "type",
+                    "id",
+                    "status",
+                    "question",
+                    "r_answer",
+                    "w_answer_1",
+                    "w_answer_2",
+                    "w_answer_3",
+                    "shown",
+                    "answered",
+                ],
+            )
+            # only create headers if the file is empty.
             if os.path.getsize("questions.csv") == 0:
                 writer.writeheader()
-            writer.writerow({"type": self.question_type, "id": self.unique_id, "status": self.status, "question": self.question, "r_answer": self.right_answer, "w_answer_1": self.wrong_answer_1, "w_answer_2": self.wrong_answer_2, "w_answer_3": self.wrong_answer_3, "shown": self.shown, "answered": self.answered})
+            writer.writerow(
+                {
+                    "type": self.question_type,
+                    "id": self.unique_id,
+                    "status": self.status,
+                    "question": self.question,
+                    "r_answer": self.right_answer,
+                    "w_answer_1": self.wrong_answer_1,
+                    "w_answer_2": self.wrong_answer_2,
+                    "w_answer_3": self.wrong_answer_3,
+                    "shown": self.shown,
+                    "answered": self.answered,
+                }
+            )
 
 
 @dataclass
@@ -52,13 +86,14 @@ class FreeformQuestion(Question):
         self.right_answer = input("Correct Answer: ")
 
 
-
 def start_question_mode():
     while True:
-        print("\nWhat type of question would you like to add?\n1. Quiz\n2. Freeform\n3. Go to Main Menu")
+        print(
+            "\nWhat type of question would you like to add?\n1. Quiz\n2. Freeform\n3. Go to Main Menu"
+        )
         selection = input("Option: ")
 
-        #Quiz Question
+        # Quiz Question
         if selection == "1":
             question = QuizQuestion()
             question.get()
@@ -66,7 +101,7 @@ def start_question_mode():
             print("Success!")
             continue
 
-        #Freeform Question
+        # Freeform Question
         elif selection == "2":
             question = FreeformQuestion()
             question.get()
@@ -74,14 +109,15 @@ def start_question_mode():
             print("Success!")
             continue
 
-        #Back to Menu
+        # Back to Menu
         elif selection == "3":
             raise BackToMain
-            
+
         # If selection not in ["1", "2", "3"]:
         else:
             print("\nInvalid Selection!\n")
 
-            
+
+
 if __name__ == "__main__":
     start_question_mode()
