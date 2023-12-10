@@ -4,7 +4,6 @@ from abc import ABC, abstractmethod
 import time
 import os
 
-# default is a free-form question
 @dataclass
 class Question(ABC):
     question_type: str = None
@@ -31,6 +30,7 @@ class Question(ABC):
                 writer.writeheader()
             writer.writerow({"type": self.question_type, "id": self.unique_id, "status": self.status, "question": self.question, "r_answer": self.right_answer, "w_answer_1": self.wrong_answer_1, "w_answer_2": self.wrong_answer_2, "w_answer_3": self.wrong_answer_3, "shown": self.shown, "answered": self.answered})
 
+
 @dataclass
 class QuizQuestion(Question):
     question_type: str = "quizquestion"
@@ -53,32 +53,33 @@ class FreeformQuestion(Question):
 
 
 
+def start_question_mode():
+    while True:
+        print("\nWhat type of question would you like to add?\n1. Quiz\n2. Freeform\n3. Go to Main Menu")
+        selection = input("Option: ")
 
-while True:
-    print("What type of question would you like to add?\n1. Quiz\n2. Freeform\n3. Return To Modes")
-    selection = input("Option: ")
+        #Quiz Question
+        if selection == "1":
+            question = QuizQuestion()
+            question.get()
+            question.add_to_file()
+            continue
 
-    #Quiz Question
-    if selection == "1":
-        question = QuizQuestion()
-        question.get()
-        question.add_to_file()
-        continue
+        #Freeform Question
+        elif selection == "2":
+            question = FreeformQuestion()
+            question.get()
+            question.add_to_file()
+            continue
 
-    #Freeform Question
-    elif selection == "2":
-        question = FreeformQuestion()
-        question.get()
-        question.add_to_file()
-        continue
+        #Back to Menu
+        elif selection == "3":
+            raise BackToMain
+            
+        # If selection not in ["1", "2", "3"]:
+        else:
+            print("\nInvalid Selection!\n")
 
-    #Back to Menu
-    elif selection == "3":
-        break
-        ... # raise BackToMainMenuError
-
-    # If selection not in ["1", "2", "3"]:
-    else:
-        print("\nInvalid Selection!\n")
-
-    
+            
+if __name__ == "__main__":
+    start_question_mode()
