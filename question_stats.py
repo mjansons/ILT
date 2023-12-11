@@ -32,6 +32,7 @@ class Statistics:
         self.question_list = self.make_dict(file_path)
 
     def print_stats(self):
+        print("")
         for question in self.question_list:
             print(
                 f"ID: {question['id']},",
@@ -39,13 +40,14 @@ class Statistics:
                 f"\nStatus: {question['status']},",
                 f"Question: {question['question']},",
                 f"Right Answer: {question['r_answer']},",
-                # f"Wrong Answer 1: {question['w_answer_1']},",
-                # f"Wrong Answer 2: {question['w_answer_2']},",
-                # f"Wrong Answer 3: {question['w_answer_3']},",
+                f"Wrong Answer 1: {question['w_answer_1']},",
+                f"Wrong Answer 2: {question['w_answer_2']},",
+                f"Wrong Answer 3: {question['w_answer_3']},",
                 f"Times Shown: {question['shown']},",
                 f"Answered Correctly: {question['answered']},",
                 "\n",
             )
+        print("Success, look up!")
 
 def reveal_stats():
     stuff = Statistics()

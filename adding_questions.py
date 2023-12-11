@@ -93,7 +93,7 @@ def start_question_mode():
         print(
             "\nWhat type of question would you like to add?\n1. Quiz\n2. Freeform\n3. Go to Main Menu"
         )
-        selection = input("Option: ")
+        selection = input("\nOption: ")
 
         # Quiz Question
         if selection == "1":

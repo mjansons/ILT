@@ -75,7 +75,7 @@ class Status:
                 )
 
 
-def run():
+def start_status_mode():
     # make a dict from Statistics class function
     my_list = question_stats.Statistics().make_dict("questions.csv")
     status_obj = Status(my_list)
@@ -84,7 +84,7 @@ def run():
         print(
             "\nWhat do you want to do?\n1.Print Questions\n2.Change Status\n3.Go to main menu"
         )
-        option = input("Option: ")
+        option = input("\nOption: ")
 
         if option == "1":
             status_obj.print_stats()
@@ -114,4 +114,4 @@ def run():
 
 
 if __name__ == "__main__":
-    run()
+    start_status_mode()

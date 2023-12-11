@@ -1,7 +1,8 @@
 import adding_questions
 import question_stats
+import status_change
 import sys
-import adding_questions
+
 
 
 while True:
@@ -28,7 +29,7 @@ while True:
 
         # Disable/enable questions
         elif what == "3":
-            pass
+            status_change.start_status_mode()
 
         # Practice
         elif what == "4":
