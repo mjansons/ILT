@@ -86,10 +86,12 @@ def start_status_mode():
         )
         option = input("\nOption: ")
 
+        # Print all questions
         if option == "1":
             status_obj.print_stats()
             print("Success, look up!")
-
+        
+        # Change status
         elif option == "2":
             while True:
                 selected_id = input("\nChange status for ID: ").casefold()
@@ -104,7 +106,8 @@ def start_status_mode():
                 else:
                     print("\nIncorrect ID!")
                     continue
-
+        
+        # Go to main menu
         elif option == "3":
             raise BackToMain
 
