@@ -1,6 +1,6 @@
 type,id,status,question,r_answer,w_answer_1,w_answer_2,w_answer_3,shown,answered
-quizquestion,170229968654474,active,What's good?,All is good,nothing,everything,what,0,0
-quizquestion,170229968654474,active,Where are we?,On earth,nowhere,in space,we are not,0,0
+quizquestion,170229968654474,inactive,What's good?,All is good,nothing,everything,what,0,0
+quizquestion,170229968654474,inactive,Where are we?,On earth,nowhere,in space,we are not,0,0
 quizquestion,170231181284215,active,Capital of USA?,Washington,Riga,Vilnius,Tartu,0,0
 freeform,170231190650459,inactive,What's going on?,Nothing much,,,,0,0
-quizquestion,170231597528854,active,What time is it?,Now,12:00,13:00,15:00,0,0
+quizquestion,170231597528854,inactive,What time is it?,Now,12:00,13:00,15:00,0,0

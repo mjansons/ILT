@@ -2,6 +2,9 @@ import csv
 import os
 import question_stats
 
+class BackToMain(Exception):
+    pass
+
 def main():
 
     """MAKE A DICTIONARY"""
@@ -19,13 +22,13 @@ def main():
                 "\n",
             )
 
-    """TRY TO SELECT ID TO CHANGE STATUS"""
+    """VALIDATE ID"""
 
     def validate_id(the_list, id_to_check):
-        found_id = "invalid"
+        found_id = False
         for question in the_list:
             if question["id"] == id_to_check:
-                found_id = "valid"
+                found_id = True
         return found_id
     
     
@@ -75,20 +78,36 @@ def main():
                 )
 
     def run(the_dict):
-        print_stats(the_dict)
+        while True:
+            print("\nWhat do you want to do?\n1.Print Questions\n2.Change Status\n3.Go to main menu")
+            option = input("Option: ")
+            
+            if option == "1":
+                print_stats(the_dict)
+                print("Success, look up!")
+            
+            elif option == "2":
+                while True:
+                    selected_id = input("\nChange status for ID: ").casefold()
 
-        selected_id = input("Change status for ID: ").casefold()
+                    if validate_id(the_dict, selected_id) == True:
+                        update_list(selected_id, the_dict)
+                        re_write_csv(the_dict)
+                        print("\nDone!")
+                        break
 
-        if validate_id(the_dict, selected_id) == "valid":
-            update_list(selected_id, the_dict)
-            re_write_csv(the_dict)
-        else:
-            print("Incorrect ID")
-
-
+                    else:
+                        print("\nIncorrect ID!")
+                        continue
+        
+            elif option == "3":
+                raise BackToMain
+        
+            else:
+                print("\nInvalid option selected")
+                continue
     
     run(my_list)  
-
 main()
     
 
