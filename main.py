@@ -46,5 +46,5 @@ while True:
         else:
             print("Invalid Option Selected")
 
-    except adding_questions.BackToMain as e:
+    except (adding_questions.BackToMain, status_change.BackToMain) as e:
         continue

@@ -47,7 +47,7 @@ class FreeformQuestion(Question):
 
 
 @dataclass
-class QuestionManager:
+class QuestionProcessor:
     def __init__(self, object):
         self.question_object = object
 
@@ -98,7 +98,7 @@ def start_question_mode():
         # Quiz Question
         if selection == "1":
             question = QuizQuestion()
-            quiz_question = QuestionManager(question)
+            quiz_question = QuestionProcessor(question)
             quiz_question.add_to_file()
             print("Success!")
             continue
@@ -106,7 +106,7 @@ def start_question_mode():
         # Freeform Question
         elif selection == "2":
             question = FreeformQuestion()
-            quiz_question = QuestionManager(question)
+            quiz_question = QuestionProcessor(question)
             quiz_question.add_to_file()
             print("Success!")
             continue

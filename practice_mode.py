@@ -1,5 +1,7 @@
 # A mode in which questions are given non-stop so that the user can practice. 
+
 # Qquestions that are answered correctly become less likely to appear,
+
 # while questions that are answered incorrectly become more likely to appear.
 # Hint: you may want to look into weighted random choices. 
 # The probabilities should not be reset when the program restarts.
