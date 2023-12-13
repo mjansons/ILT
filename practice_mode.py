@@ -1,12 +1,7 @@
 from dataclasses import dataclass
 import random
 import question_stats
-
-# A mode in which questions are given non-stop so that the user can practice. 
-# Questions that are answered correctly become less likely to appear,
-# while questions that are answered incorrectly become more likely to appear.
-# Hint: you may want to look into weighted random choices. 
-# The probabilities should not be reset when the program restarts.
+from typing import Union
 
 class BackToMain(Exception):
     pass
@@ -25,12 +20,20 @@ class QuestionFinder:
         # getting the question
         selected_question = random.choices(active_questions, weights=weights, k=1)
         return selected_question
+    
+    @staticmethod
+    def select_random_questions(the_list, amount):
+        # filter active questions
+        active_questions = [question for question in the_list if question["status"] == "active"]
+        # getting the question
+        selected_questions = random.sample(active_questions, k=amount)
+        return selected_questions
 
 
 @dataclass
 class QuestionAsker:
 
-    selected_question: list = None
+    selected_question: list
 
     def quiz_question(self):
 
@@ -40,7 +43,7 @@ class QuestionAsker:
 
         a, b, c, d = list_answers
     
-        print(f"\n{self.selected_question[0]['question']}\n\na. {a}\nb. {b}\nc. {c}\nd. {d}\n\nTo exit practice mode, type 'done'\n")
+        print(f"\n{self.selected_question[0]['question']}\n\na. {a}\nb. {b}\nc. {c}\nd. {d}\n\nTo exit, type 'done'\n")
         
         while True:
             answer = input("Answer: ").casefold()
@@ -58,7 +61,13 @@ class QuestionAsker:
                 print("\nNo such answer, select a, b, c, or d!\n")
 
     def freeform_question(self):
-        print(f"\n{self.selected_question[0]['question']}\n\nTo exit practice mode, type 'done'\n")
+        if isinstance(self.selected_question, list):
+            question_data = self.selected_question[0]
+
+        elif isinstance(self.selected_question, dict):
+            question_data = self.selected_question
+
+        print(f"\n{question_data['question']}\n\nTo exit, type 'done'\n")
         
         while True:
             answer = input("Answer: ").casefold()
@@ -69,8 +78,7 @@ class QuestionAsker:
             else:
                 return answer
             
-    def ask(self, question):
-        self.selected_question = question
+    def ask(self):
         if self.selected_question[0]["type"] == "quizquestion":
             return self.quiz_question()
         else:
@@ -80,20 +88,21 @@ class QuestionAsker:
 @dataclass
 class AnswerEvaluator:
     my_list: list
-    question: list
+    selected_question: list
     answer: str
 
     def evaluate(self):
-        if self.question[0]['r_answer'] == self.answer:
+        if self.selected_question[0]['r_answer'] == self.answer:
             self.update_correct()
-            print("\nCorrect!\n")
+            print("\nCorrect!")
+            return True
         else: 
             self.update_wrong()
-            print(f"\nIncorrect! The Right answer was {self.question[0]['r_answer']}\n")
+            print(f"\nIncorrect! The Right answer was: {self.selected_question[0]['r_answer']}")
 
     def update_correct(self):
         for original_question in self.my_list:
-            if original_question["id"] == self.question[0]["id"]:
+            if original_question["id"] == self.selected_question[0]["id"]:
                 old_shown = int(original_question["shown"])
                 old_percentage = float(original_question["answered"])
                 original_question["answered"] = round(((old_shown * old_percentage) + 1) / (old_shown + 1), 2)
@@ -101,7 +110,7 @@ class AnswerEvaluator:
 
     def update_wrong(self):
         for original_question in self.my_list:
-            if original_question["id"] == self.question[0]["id"]:
+            if original_question["id"] == self.selected_question[0]["id"]:
                 old_shown = int(original_question["shown"])
                 old_percentage = float(original_question["answered"])
                 original_question["answered"] = round(((old_shown * old_percentage)) / (old_shown + 1), 2)
@@ -112,7 +121,7 @@ def start_practice_mode():
     while True:
         my_list = question_stats.My_csv_manager.make_dict("questions.csv")
         question = QuestionFinder.select_weighted_question(my_list)
-        answer = QuestionAsker().ask(question)
+        answer = QuestionAsker(question).ask()
         AnswerEvaluator(my_list, question, answer).evaluate()
         question_stats.My_csv_manager.re_write_csv(my_list, "questions.csv")
     

@@ -2,12 +2,13 @@ import adding_questions
 import question_stats
 import status_change
 import practice_mode
+import test_mode
 import sys
 
 def main():
 
     while True:
-        barrier_stats = mode_barrier()
+        barrier_stats = test_mode.Barrier().mode_barrier()
         try:
             print("\nMenu:")
             print(
@@ -16,7 +17,8 @@ def main():
                 "3. Disable/enable questions\n"
                 "4. Practice\n"
                 "5. Do a test\n"
-                "6. Exit\n"
+                "6. Wipe all files\n"
+                "7. Exit\n"
             )
             what = input("Option: ")
             
@@ -38,7 +40,7 @@ def main():
                 if barrier_stats[0] < 7:
                     print("At least 5 questions must be added, before you can start this mode")
                     continue
-                elif barrier_stats[1] < 6:
+                elif barrier_stats[1] < 5:
                     print("At least 5 questions must be Enabled, before you can start this mode.")
                     continue
                 else:
@@ -53,25 +55,26 @@ def main():
                     print("At least 5 questions must be Enabled, before you can start this mode.")
                     continue
                 else:
-                    ...
+                    test_mode.start_test_mode()
+                    continue
+
+            # Wipe
+            elif what == "6":
+                # wipe txt
+                test_mode.TestManager.wipe_file("test_results.txt")
+                # wipe csv
+                adding_questions.QuestionProcessor.wipe_file("questions.csv")
+                continue
 
             # Exit Program
-            elif what == "6":
+            elif what == "7":
                 sys.exit("\nAdios!\n")
 
             else:
                 print("Invalid Option Selected")
 
-        except (adding_questions.BackToMain, status_change.BackToMain, practice_mode.BackToMain) as e:
+        except (adding_questions.BackToMain, status_change.BackToMain, practice_mode.BackToMain, test_mode.BackToMain,) as e:
             continue
-
-
-def mode_barrier():
-    line_count = question_stats.My_csv_manager.get_line_count()
-    my_list = question_stats.My_csv_manager.make_dict("questions.csv")
-    active_questions = len([question for question in my_list if question["status"] == "active"])
-    return (line_count, active_questions)
-
             
 if __name__ == "__main__":
     main()

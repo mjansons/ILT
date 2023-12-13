@@ -86,6 +86,10 @@ class QuestionProcessor:
                     "answered": self.question_object.answered,
                 }
             )
+    @staticmethod
+    def wipe_file(file_path):
+        with open(file_path, "w", newline="", encoding="utf-8"):
+            pass
 
 
 def start_question_mode():

@@ -1,6 +1,74 @@
-# A mode for testing your knowledge. 
-# Users should first select the number of questions for the test which is not larger than the total number of questions added.
-# The questions get chosen fully randomly and each question can only appear once at most in the test. 
-# At the end of the questions, the user is shown the score.
-# The list of scores should be saved in a separate results.txt 
-# The date and time should be added next to the score as well.
+import question_stats
+import practice_mode
+from datetime import datetime, timezone
+import csv
+
+
+class BackToMain(Exception):
+    pass
+
+
+class Barrier:
+    @staticmethod
+    def mode_barrier():
+        line_count = question_stats.My_csv_manager.get_line_count()
+        my_list = question_stats.My_csv_manager.make_dict("questions.csv")
+        active_questions = len(
+            [question for question in my_list if question["status"] == "active"]
+        )
+        return (line_count, active_questions)
+
+
+class TestMode:
+    @staticmethod
+    def get_question_amount():
+        while True:
+            try:
+                barrier_info = Barrier().mode_barrier()
+                print(
+                    f"\nThere are only {barrier_info[1]} currently active questions!\nHow long would you like your test to be?"
+                )
+                selected_amount = int(input("\nTest length: "))
+                if 0 < selected_amount <= barrier_info[1]:
+                    print("\nGood Luck!")
+                    return selected_amount
+                else:
+                    print("Invalid selection!")
+            except Exception:
+                print("Invalid selection!")
+                continue
+
+    @staticmethod
+    def log_test(question_amount, score):
+        current_datetime = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+        line = [f"Test on: {current_datetime}, Score: {score}/{question_amount}"]
+        with open("test_results.txt", "a", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+            writer.writerow(line)
+
+    @staticmethod
+    def wipe_file(file_path):
+        with open("file_path", "w", newline="", encoding="utf-8") as file:
+            file.truncate(0)
+
+
+def start_test_mode():
+    question_amount = TestMode.get_question_amount()
+    my_list = question_stats.My_csv_manager.make_dict("questions.csv")
+    selected_questions = practice_mode.QuestionFinder.select_random_questions(
+        my_list, question_amount
+    )
+    score = 0
+    for question in selected_questions:
+        question = [question]
+        answer = practice_mode.QuestionAsker(question).ask()
+        result = practice_mode.AnswerEvaluator(my_list, question, answer).evaluate()
+        if result == True:
+            score += 1
+    TestMode.log_test(question_amount, score)
+    question_stats.My_csv_manager.re_write_csv(my_list, "questions.csv")
+    print(f"Final score: {score}/{question_amount}\n")
+
+
+if __name__ == "__main__":
+    start_test_mode()
