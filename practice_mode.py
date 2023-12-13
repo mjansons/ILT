@@ -3,25 +3,14 @@ import random
 import question_stats
 
 # A mode in which questions are given non-stop so that the user can practice. 
-
 # Questions that are answered correctly become less likely to appear,
-
 # while questions that are answered incorrectly become more likely to appear.
 # Hint: you may want to look into weighted random choices. 
 # The probabilities should not be reset when the program restarts.
 
-# get list of questions, e.g. with ids:
-# question_list = ["3243324", "234532233", "12345324"]
-# weights = 
-
-
 
 
 # percentage = times shown / answered correctly
-# weights = [1 - percentage + 0.01 for question in list_of_questions]
-
-# list_of_questions = [question["id"] for question in list_of_questions if question["status"] == "active"]
-# chosen_question = random.choices(list_of_questions)
 
 
 
@@ -41,11 +30,8 @@ import question_stats
 
 
 
-#     # - question selector
-#     # SELECT A QUESTION FROM ALL ACTIVE QUESTIONS
-
 @dataclass
-class QuestionPresenter:
+class QuestionFinder:
 
     @staticmethod
     def select_weighted_question(the_list):
@@ -60,12 +46,63 @@ class QuestionPresenter:
         return selected_question
 
 
+@dataclass
+class QuestionAsker:
+
+    selected_question: list
+
+    def ask_quiz_question(self):
+
+        list_answers = [self.selected_question[0]["r_answer"], self.selected_question[0]["w_answer_1"], self.selected_question[0]["w_answer_2"], self.selected_question[0]["w_answer_3"]]
         
+        random.shuffle(list_answers)
+
+        a, b, c, d = list_answers
+    
+        print(f"\n{self.selected_question[0]['question']}\n\na. {a}\nb. {b}\nc. {c}\nd. {d}\n")
+        
+        while True:
+            answer = input("Answer: ").casefold()
+            if answer == "a":
+                return a
+            elif answer == "b":
+                return b
+            elif answer == "c":
+                return c
+            elif answer == "d":
+                return d
+            else:
+                print("\nNo such answer, select a, b, c, or d!\n")
+
+    def ask_freeform_question(self):
+        print(f"\n{self.selected_question[0]['question']}\n")
+        
+        while True:
+            answer = input("Answer: ").casefold()
+            if not answer:
+                print("\nType at least something!\n")
+            else:
+                return answer
+            
+    def ask(self):
+        if self.selected_question[0]["type"] == "quizquestion":
+            return self.ask_quiz_question()
+        else:
+            return self.ask_freeform_question()
+            
+
+@dataclass
+class AnswerManager:
+    ...
+
+    
+my_list = question_stats.My_csv_manager.make_dict("questions.csv")
+question = QuestionFinder.select_weighted_question(my_list)
+answer = QuestionAsker(question).ask()
+print(answer)
 
 
 
-#     # - question asker
-#     # ASK THAT QUESTION
 
 #     # - answer evaluator
 #     # EVALUATE ANSWER
