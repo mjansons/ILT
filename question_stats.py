@@ -84,6 +84,15 @@ class My_csv_manager:
                         "answered": row["answered"],
                     }
                 )
+    @staticmethod
+    def get_line_count(file_name="questions.csv"):
+        count = 0
+        with open(file_name) as file:
+            for line in file:
+                new_line = line.lstrip()
+                if not new_line.startswith("#") and not line.isspace():
+                    count += 1
+        return count
 
 
 def reveal_stats():

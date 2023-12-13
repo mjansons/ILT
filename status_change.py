@@ -47,6 +47,7 @@ def start_status_mode():
 
         # Change status
         elif option == "2":
+            question_stats.Statistics.print_stats(my_list)
             while True:
                 selected_id = input("\nChange status for ID: ").casefold()
                 response = status_obj.validate_id(selected_id)
