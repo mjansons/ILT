@@ -7,6 +7,9 @@ import sys
 
 def main():
 
+    test_mode.TestMode.create_txt("test_results.txt")
+    adding_questions.QuestionProcessor.create_csv("questions.csv")
+
     while True:
         barrier_stats = test_mode.Barrier().mode_barrier()
         try:
@@ -33,7 +36,11 @@ def main():
 
             # Disable/enable questions
             elif what == "3":
-                status_change.start_status_mode()
+                if barrier_stats[0] < 2:
+                    print("At least 1 questions must be added, before you can start this mode")
+                    continue
+                else:
+                    status_change.start_status_mode()
 
             # Practice
             elif what == "4":
@@ -61,7 +68,7 @@ def main():
             # Wipe
             elif what == "6":
                 # wipe txt
-                test_mode.TestManager.wipe_file("test_results.txt")
+                test_mode.TestMode.wipe_file("test_results.txt")
                 # wipe csv
                 adding_questions.QuestionProcessor.wipe_file("questions.csv")
                 continue

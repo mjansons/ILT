@@ -1,8 +1,6 @@
-"""this code offers to add 2 types of questions in questions.csv file"""
-
 import csv
 from dataclasses import dataclass
-from abc import ABC, abstractmethod
+from abc import ABC
 import time
 import os
 
@@ -13,7 +11,7 @@ class BackToMain(Exception):
 class Question(ABC):
     """master class for questions"""
     question_type: str = None
-    unique_id: int = int(time.time_ns()/10000)
+    unique_id: int = None
     status: str = "active"
     question: str = None
     right_answer: str = None
@@ -24,7 +22,10 @@ class Question(ABC):
     shown: int = 0
     answered: float = 0
 
-
+    @property
+    def unique_id(self):
+        return int(time.time_ns()/10000)
+    
 @dataclass
 class QuizQuestion(Question):
     question_type: str = "quizquestion"
@@ -90,6 +91,13 @@ class QuestionProcessor:
     def wipe_file(file_path):
         with open(file_path, "w", newline="", encoding="utf-8"):
             pass
+
+    @staticmethod
+    def create_csv(file_path):
+        if not os.path.exists(file_path):
+            with open(file_path, "w", newline="", encoding="utf-8") as file:
+                pass
+    
 
 
 def start_question_mode():

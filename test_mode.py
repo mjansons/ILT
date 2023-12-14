@@ -2,6 +2,7 @@ import question_stats
 import practice_mode
 from datetime import datetime, timezone
 import csv
+import os
 
 
 class BackToMain(Exception):
@@ -26,7 +27,7 @@ class TestMode:
             try:
                 barrier_info = Barrier().mode_barrier()
                 print(
-                    f"\nThere are only {barrier_info[1]} currently active questions!\nHow long would you like your test to be?"
+                    f"\nThere are {barrier_info[1]} currently active questions!\nHow long would you like your test to be?"
                 )
                 selected_amount = int(input("\nTest length: "))
                 if 0 < selected_amount <= barrier_info[1]:
@@ -48,8 +49,15 @@ class TestMode:
 
     @staticmethod
     def wipe_file(file_path):
-        with open("file_path", "w", newline="", encoding="utf-8") as file:
-            file.truncate(0)
+        with open(file_path, "w", newline="", encoding="utf-8") as file:
+            pass
+
+    @staticmethod
+    def create_txt(file_path):
+        if not os.path.exists(file_path):
+            with open(file_path, "w", newline="", encoding="utf-8") as file:
+                pass
+
 
 
 def start_test_mode():
