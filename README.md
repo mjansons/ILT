@@ -28,14 +28,15 @@ Make sure you have Python 3 installed on your machine. You can download it from 
 
    for the whole dependency list generate a requirement's txt by typing this in bash:
 
+  ```bash
    pip freeze > requirements.txt
-
+   ```
    it will generate a requirements.txt file
 
    to install everything from it:
-
+  ```bash
    pip install -r requirements.txt
-
+  ```
    If this doesn't work, I believe you only need pytest. Everything else should come with python3.
    pip install pytest
 
