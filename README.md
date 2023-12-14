@@ -28,17 +28,20 @@ Make sure you have Python 3 installed on your machine. You can download it from 
 
    for the whole dependency list generate a requirement's txt by typing this in bash:
 
-  ```bash
-   pip freeze > requirements.txt
-   ```
-   it will generate a requirements.txt file
+```bash
+ pip freeze > requirements.txt
+```
 
-   to install everything from it:
-  ```bash
-   pip install -r requirements.txt
-  ```
-   If this doesn't work, I believe you only need pytest. Everything else should come with python3.
-   pip install pytest
+it will generate a requirements.txt file
+
+to install everything from it:
+
+```bash
+ pip install -r requirements.txt
+```
+
+If this doesn't work, I believe you only need pytest. Everything else should come with python3.
+pip install pytest
 
 ## Usage
 
@@ -50,3 +53,5 @@ python3 main.py
 ```
 
 If you want you may also delete questions.csv and test_results.txt, but they will be re-created when the program starts.
+
+my war game repository: https://github.com/mjansons/War.git - still in progress.
