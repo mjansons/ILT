@@ -6,7 +6,7 @@ import test_mode
 import sys
 
 def main():
-
+    """Main function for the interactive learning tool."""
     test_mode.TestMode.create_txt("test_results.txt")
     adding_questions.QuestionProcessor.create_csv("questions.csv")
 

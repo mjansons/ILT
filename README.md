@@ -1,62 +1,51 @@
-Here's a high-level task breakdown structure for my interactive learning tool:
+# Interactive Learning Tool
 
-Main Program Flow:
+The Interactive Learning Tool is a Python program designed to help users create, manage, and practice with custom quiz questions. It provides various features, including adding questions, viewing statistics, disabling/enabling questions, practicing, and taking tests.
 
-Create a main program loop that allows users to choose different modes.
-Implement the menu with options for adding questions, viewing statistics, disabling/enabling questions, practice mode, test mode, and (bonus) profile select.
+## Getting Started
 
-Question Class:
-Create a class for handling questions.
-Implement subclasses for quiz questions and free-form text questions.
-Include methods for displaying questions, checking answers, and updating question statistics.
-File Handling:
+These instructions will help you set up and run the Interactive Learning Tool on your local machine.
 
-Implement file I/O for storing questions, enabled/disabled status, and (bonus) user profiles and their statistics.
-Ensure the program loads previous data when started and saves updates when closing.
-Adding Questions:
+### Prerequisites
 
-Implement the logic for adding quiz and free-form text questions.
-Ensure questions are saved to the file.
-Statistics Viewing:
+Make sure you have Python 3 installed on your machine. You can download it from [python.org](https://www.python.org/downloads/).
 
-Implement the logic for displaying question statistics.
-Disable/Enable Questions:
+### Installing
 
-Implement the logic for disabling/enabling questions.
-Update the file with the enabled/disabled status.
-Practice Mode:
+1. Clone the repository to your local machine:
 
-Implement weighted random question selection.
-Create a loop for continuous practice until the user decides to exit.
-Test Mode:
+   ```bash
+   git clone https://github.com/mjansons/ILT.git
+   ```
 
-Implement random question selection for tests.
-Record and display scores.
-Save scores to a separate results.txt file with timestamps.
-Bonus: Profile Select:
+2. Change into the project directory:
 
-Implement user profiles with individual statistics.
-Update practice and test modes to consider profile-specific probabilities.
-Unit Testing:
+   ```bash
+   cd interactive-learning-tool
+   ```
 
-Write at least three unit tests to ensure critical functionalities are working as expected.
-Code Quality and Readability:
+3. Install the required dependencies:
 
-Ensure the code is well-organized, follows PEP 8 conventions, and is readable.
-Usability:
+   for the whole dependency list generate a requirement's txt by typing this in bash:
 
-Test the program to ensure it's user-friendly and intuitive.
-Additional Features (Optional):
+   pip freeze > requirements.txt
 
-Consider implementing additional features that could enhance the usability and functionality of the program, such as a "full reset" option.
-Documentation:
+   it will generate a requirements.txt file
 
-Provide comments and documentation for your code to explain complex parts or logic.
-Peer Programming:
+   to install everything from it:
 
-Conduct at least one session of peer programming, and ensure the initial repository is available on GitHub.
-Remember to regularly test and debug your code as you progress through each feature. Additionally, keep the user experience in mind to create a seamless and intuitive learning tool.
+   pip install -r requirements.txt
 
-Notes to myself:
-Need to remember to allow users to edit questions that they have added in case mistakes were made. Another option in adding_questions.py
-or maybe just for simplicity sake, just remove the whole line
+   If this doesn't work, I believe you only need pytest. Everything else should come with python3.
+   pip install pytest
+
+## Usage
+
+To run the program, execute the following command in your terminal:
+
+```bash
+python3 main.py
+
+```
+
+If you want you may also delete questions.csv and test_results.txt, but they will be re-created when the program starts.

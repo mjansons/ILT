@@ -1,6 +1,6 @@
+from abc import ABC
 import csv
 from dataclasses import dataclass
-from abc import ABC
 import time
 import os
 
@@ -22,39 +22,40 @@ class Question(ABC):
     shown: int = 0
     answered: float = 0
 
+    # this makes sure that every time I access this attribute, it generates a unique one
     @property
     def unique_id(self):
         return int(time.time_ns()/10000)
-    
+
+
 @dataclass
 class QuizQuestion(Question):
     question_type: str = "quizquestion"
 
-    def __init__(self):
-        self.question = input("Question: ")
-        self.right_answer = input("Correct Answer: ")
-        self.wrong_answer_1 = input("Wrong Answer Option 1: ")
-        self.wrong_answer_2 = input("Wrong Answer Option 2: ")
-        self.wrong_answer_3 = input("Wrong Answer Option 3: ")
-
+    def __init__(self, question, right_answer, wrong_answer_1, wrong_answer_2, wrong_answer_3):
+        self.question = question
+        self.right_answer = right_answer
+        self.wrong_answer_1 = wrong_answer_1
+        self.wrong_answer_2 = wrong_answer_2
+        self.wrong_answer_3 = wrong_answer_3
 
 @dataclass
 class FreeformQuestion(Question):
     question_type: str = "freeform"
 
-    def __init__(self):
-        self.question = input("Question: ")
-        self.right_answer = input("Correct Answer: ")
-
+    def __init__(self, question, right_answer):
+        self.question = question
+        self.right_answer = right_answer
 
 @dataclass
 class QuestionProcessor:
-    def __init__(self, object):
-        self.question_object = object
+    def __init__(self, question_object, file_path):
+        self.asked_question = question_object
+        self.file_path = file_path
 
     def add_to_file(self):
         """create a csv file and populate it with all attribute values"""
-        with open("questions.csv", "a", newline="", encoding="utf-8") as file:
+        with open(self.file_path, "a", newline="", encoding="utf-8") as file:
             writer = csv.DictWriter(
                 file,
                 fieldnames=[
@@ -71,22 +72,23 @@ class QuestionProcessor:
                 ],
             )
             # only create headers if the file is empty.
-            if os.path.getsize("questions.csv") == 0:
+            if os.path.getsize(self.file_path) == 0:
                 writer.writeheader()
             writer.writerow(
                 {
-                    "type": self.question_object.question_type,
-                    "id": self.question_object.unique_id,
-                    "status": self.question_object.status,
-                    "question": self.question_object.question,
-                    "r_answer": self.question_object.right_answer,
-                    "w_answer_1": self.question_object.wrong_answer_1,
-                    "w_answer_2": self.question_object.wrong_answer_2,
-                    "w_answer_3": self.question_object.wrong_answer_3,
-                    "shown": self.question_object.shown,
-                    "answered": self.question_object.answered,
+                    "type": self.asked_question.question_type,
+                    "id": self.asked_question.unique_id,
+                    "status": self.asked_question.status,
+                    "question": self.asked_question.question,
+                    "r_answer": self.asked_question.right_answer,
+                    "w_answer_1": self.asked_question.wrong_answer_1,
+                    "w_answer_2": self.asked_question.wrong_answer_2,
+                    "w_answer_3": self.asked_question.wrong_answer_3,
+                    "shown": self.asked_question.shown,
+                    "answered": self.asked_question.answered,
                 }
             )
+
     @staticmethod
     def wipe_file(file_path):
         with open(file_path, "w", newline="", encoding="utf-8"):
@@ -97,8 +99,6 @@ class QuestionProcessor:
         if not os.path.exists(file_path):
             with open(file_path, "w", newline="", encoding="utf-8") as file:
                 pass
-    
-
 
 def start_question_mode():
     while True:
@@ -107,30 +107,28 @@ def start_question_mode():
         )
         selection = input("\nOption: ")
 
-        # Quiz Question
         if selection == "1":
-            question = QuizQuestion()
-            quiz_question = QuestionProcessor(question)
-            quiz_question.add_to_file()
-            print("Success!")
-            continue
-
-        # Freeform Question
+            question = QuizQuestion(
+                input("Question: "),
+                input("Correct Answer: "),
+                input("Wrong Answer Option 1: "),
+                input("Wrong Answer Option 2: "),
+                input("Wrong Answer Option 3: "),
+            )
         elif selection == "2":
-            question = FreeformQuestion()
-            quiz_question = QuestionProcessor(question)
-            quiz_question.add_to_file()
-            print("Success!")
-            continue
-
-        # Back to Menu
+            question = FreeformQuestion(
+                input("Question: "),
+                input("Correct Answer: "),
+            )
         elif selection == "3":
             raise BackToMain
-
-        # If selection not in ["1", "2", "3"]:
         else:
             print("\nInvalid Selection!\n")
+            continue
 
+        quiz_question = QuestionProcessor(question, "questions.csv")
+        quiz_question.add_to_file()
+        print("Success!")
 
 if __name__ == "__main__":
     start_question_mode()

@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 import random
 import question_stats
-from typing import Union
 
 class BackToMain(Exception):
     pass

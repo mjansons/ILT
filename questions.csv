@@ -1,0 +1,10 @@
+type,id,status,question,r_answer,w_answer_1,w_answer_2,w_answer_3,shown,answered
+quizquestion,170257324651197,active,What is the capital of Lithuania?,Vilnius,Riga,Tartu,Oslo,1,1.0
+quizquestion,170257327804387,active,Where do babies come from?,Coitus,Store,Cabbages,Storks,11,0.18
+freeform,170257334859543,active,"Fill in the blank. To start producing milk, a cow first needs to be ___.",pregnant,,,,7,0.43
+quizquestion,170257350670256,active,"What's heavier, a kg of feathers of a kg of steel?",They both weigh the same,steel,feathers,depends,10,0.2
+quizquestion,170257367955690,active,The capital of Australia is?,Canberra,Sydney,Melbourne,Brisbane,10,0.4
+quizquestion,170257379597108,active,Capital of Turkey?,Ankara,Istanbul,Antalya,Alanya,2,1.0
+quizquestion,170257389092048,active,Capital of Canada?,Ottawa,Calgary,Quebec,Vancouver,2,0.5
+freeform,170257447505111,active,Is iphone better than android?,yes,,,,1,1.0
+freeform,170257457304211,active,What was a pickle in it's previous life?,a cucubmer,,,,9,0.0
